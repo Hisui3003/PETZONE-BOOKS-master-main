@@ -28,7 +28,9 @@
                         <td>{{ $product->title }}</td>
                         <td>{{ $product->category->title }}</td>
                         <td>{{ $product->author }}</td>
-                        <td>{{ substr($product->description, 0, 15) . '...' }}</td>
+                        {{-- <td>{{ substr($product->description, 0, 15) . '...' }}</td> --}}
+                        <td>{{ Str::limit($product->description, 15) }}</td>
+
                         <td>
                             @if($product->demo_url)
                                 <img src="{{ asset('images/products/' . $product->demo_url) }}" alt="Demo Image" width="50">
@@ -51,6 +53,13 @@
                 @endforeach
             </tbody>
         </table>
+
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+              {{ $products->links() }}
+            </ul>
+          </nav>
+
     </div>
 </div>
 <!-- Products list end -->

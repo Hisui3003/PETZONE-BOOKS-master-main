@@ -75,7 +75,7 @@ Route::prefix('/admin')->group(function(){
     });
     /* For users */
     Route::prefix('/users')->group(function(){
-        Route::get('' , [UserController::class , 'index'])->name('admin.users.all');
+        Route::get('' , [UserController::class , 'all'])->name('admin.users.all');
         Route::get('/create' , [UserController::class , 'create'])->name('admin.users.create');
         Route::post('' , [UserController::class , 'store'])->name('admin.users.store');
         Route::delete('/{user}/remove' , [UserController::class , 'destroy'])->name('admin.users.destroy');
@@ -83,13 +83,13 @@ Route::prefix('/admin')->group(function(){
         Route::put('/{user}/update' , [UserController::class , 'update'])->name('admin.users.update');
     });
     Route::prefix('/suppliers')->group(function(){
-        Route::get('', [SupplierController::class, 'index'])->name('admin.suppliers.all');
-        Route::get('/create', [SupplierController::class, 'create'])->name('admin.suppliers.create');
-        Route::post('', [SupplierController::class, 'store'])->name('admin.suppliers.store');
-        Route::delete('/{supplier}/remove', [SupplierController::class, 'destroy'])->name('admin.suppliers.destroy');
-        Route::get('/{supplier}/edit', [SupplierController::class, 'edit'])->name('admin.suppliers.edit');
-        Route::put('/{supplier}/update', [SupplierController::class, 'update'])->name('admin.suppliers.update');
-    });
+        Route::get('' , [SupplierController::class , 'all'])->name('admin.suppliers.all');
+        Route::get('/create' , [SupplierController::class , 'create'])->name('admin.suppliers.create');
+        Route::post('' , [SupplierController::class , 'store'])->name('admin.suppliers.store');
+        Route::delete('/{supplier}/remove' , [SupplierController::class , 'destroy'])->name('admin.suppliers.destroy');
+        Route::get('/{supplier}/edit' , [SupplierController::class , 'edit'])->name('admin.suppliers.edit');
+        Route::put('/{supplier}/update' , [SupplierController::class , 'update'])->name('admin.suppliers.update');
+});
 
     /* For expenses */
     Route::prefix('/expenses')->group(function(){
@@ -130,7 +130,9 @@ Route::middleware(['web'])->group(function () {
 
 });
 
+// Route::get('admin/categories/data', [CategoryController::class, 'getData'])->name('admin.categories.data');
 Route::get('admin/categories/data', [CategoryController::class, 'getData'])->name('admin.categories.data');
+Route::view('/charts', 'admin.charts.bar');
 
 
 // use App\Http\Controllers\ExpensesController;
@@ -150,4 +152,22 @@ Route::post('import-csv', [ExpensesController::class, 'importCSV'])->name('impor
 Route::resource('users', UserController::class);
 // Route::get('export-csv', [ExpensesController::class, 'exportCSV'])->name('export');
 Route::post('import-csv', [UserController::class, 'importCSV'])->name('import');
+
+
+//product import csv
+Route::resource('products', productController::class);
+// Route::get('export-csv', [ExpensesController::class, 'exportCSV'])->name('export');
+Route::post('import-csv', [productController::class, 'importCSV'])->name('import');
+
+
+//suppliers import csv
+Route::resource('suppliers', SupplierController::class);
+// Route::get('export-csv', [ExpensesController::class, 'exportCSV'])->name('export');
+Route::post('import-csv', [SupplierController::class, 'importCSV'])->name('import');
+
+
+//categories import csv
+Route::resource('categories', CategoryController::class);
+// Route::get('export-csv', [ExpensesController::class, 'exportCSV'])->name('export');
+Route::post('import-csv', [CategoryController::class, 'importCSV'])->name('import');
 
