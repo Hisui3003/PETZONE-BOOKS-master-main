@@ -1,0 +1,14 @@
+/* Make DataTable borders bolder */
+.dataTables_wrapper .dataTables_scroll {
+    border: 2px solid #000; /* Adjust the thickness and color as needed */
+}
+
+.dataTables_wrapper .dataTables_scrollHead table,
+.dataTables_wrapper .dataTables_scrollBody table {
+    border: 2px solid #000; /* Adjust the thickness and color as needed */
+}
+
+.dataTables_wrapper .dataTables_scrollHead table th,
+.dataTables_wrapper .dataTables_scrollBody table td {
+    border: 2px solid #000; /* Adjust the thickness and color as needed */
+}
