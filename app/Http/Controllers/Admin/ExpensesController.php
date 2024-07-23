@@ -210,27 +210,27 @@ class ExpensesController extends Controller
 {
     foreach ($chunkdata as $column) {
         // $expense_id = $column[0];
-        $name = $column[0];
-        $date = $column[1];
-        $amount = $column[2];
-        $payment = $column[3];
-        $image_filename = $column[4];
+        $Name = $column[0];
+        $Date = $column[1];
+        $Amount = $column[2];
+        $Payment = $column[3];
+        $Image_filename = $column[4];
 
         // Create new expense
         $expense = new Expenses();
         // $expense->id = $expense_id;
-        $expense->expense_name = $name;
-        $expense->expense_date = $date;
-        $expense->expense_amount = $amount;
-        $expense->expense_payment = $payment;
+        $expense->expense_name = $Name;
+        $expense->expense_date = $Date;
+        $expense->expense_amount = $Amount;
+        $expense->expense_payment = $Payment;
 
         // Handle image upload
-        if ($image_filename) {
-            $source_path = 'C:/xampp/htdocs/PETZONE-BOOKS-master-main/public/images/' . $image_filename;
+        if ($Image_filename) {
+            $source_path = 'C:/xampp/htdocs/PETZONE-BOOKS-master-main/public/images/' . $Image_filename;
             if (File::exists($source_path)) {
-                $destination_path = public_path('storage/images/' . $image_filename);
-                File::copy($source_path, $destination_path);
-                $expense->expense_img = $image_filename;
+                $destination_path = public_path('storage/images/' . $Image_filename);
+                File::copy($source_path, $Image_filename);
+                $expense->expense_img = $Image_filename;
             }
         }
 

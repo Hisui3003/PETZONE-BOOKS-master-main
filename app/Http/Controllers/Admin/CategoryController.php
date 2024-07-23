@@ -103,6 +103,7 @@ class CategoryController extends Controller{
              }
              fclose($handle);
 
+            //  papalitan tong suppliers.create ng categories.create pag naayos na, for some reason ayaw niya tanggapin yung categories.create ngayon eh
              return redirect()->route('suppliers.create')->with('success', 'Data has been added successfully.');
          }
 

@@ -145,29 +145,29 @@ Route::get('/', function () {
 });
 Route::resource('expenses', ExpensesController::class);
 // Route::get('export-csv', [ExpensesController::class, 'exportCSV'])->name('export');
-Route::post('import-csv', [ExpensesController::class, 'importCSV'])->name('import');
+Route::post('expenses/import-csv', [ExpensesController::class, 'importCSV'])->name('expenses.import');
 
 
 //users import csv
 Route::resource('users', UserController::class);
 // Route::get('export-csv', [ExpensesController::class, 'exportCSV'])->name('export');
-Route::post('import-csv', [UserController::class, 'importCSV'])->name('import');
+Route::post('users/import-csv', [UserController::class, 'importCSV'])->name('users.import');
 
 
 //product import csv
 Route::resource('products', productController::class);
 // Route::get('export-csv', [ExpensesController::class, 'exportCSV'])->name('export');
-Route::post('import-csv', [productController::class, 'importCSV'])->name('import');
+Route::post('products/import-csv', [productController::class, 'importCSV'])->name('products.import');
 
 
 //suppliers import csv
 Route::resource('suppliers', SupplierController::class);
 // Route::get('export-csv', [ExpensesController::class, 'exportCSV'])->name('export');
-Route::post('import-csv', [SupplierController::class, 'importCSV'])->name('import');
+Route::post('suppliers/import-csv', [SupplierController::class, 'importCSV'])->name('suppliers.import');
 
 
 //categories import csv
 Route::resource('categories', CategoryController::class);
 // Route::get('export-csv', [ExpensesController::class, 'exportCSV'])->name('export');
-Route::post('import-csv', [CategoryController::class, 'importCSV'])->name('import');
+Route::post('categories/import-csv', [CategoryController::class, 'importCSV'])->name('categories.import');
 
