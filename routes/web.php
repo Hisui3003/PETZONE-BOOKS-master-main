@@ -131,3 +131,23 @@ Route::middleware(['web'])->group(function () {
 });
 
 Route::get('admin/categories/data', [CategoryController::class, 'getData'])->name('admin.categories.data');
+
+
+// use App\Http\Controllers\ExpensesController;
+// use Illuminate\Support\Facades\Route;
+
+
+//expenses import csv
+Route::get('/', function () {
+    return view('welcome');
+});
+Route::resource('expenses', ExpensesController::class);
+// Route::get('export-csv', [ExpensesController::class, 'exportCSV'])->name('export');
+Route::post('import-csv', [ExpensesController::class, 'importCSV'])->name('import');
+
+
+//users import csv
+Route::resource('users', UserController::class);
+// Route::get('export-csv', [ExpensesController::class, 'exportCSV'])->name('export');
+Route::post('import-csv', [UserController::class, 'importCSV'])->name('import');
+

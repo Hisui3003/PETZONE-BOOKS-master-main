@@ -46,7 +46,7 @@ class ExpensesController extends Controller
         return back()
             ->withErrors($validator)
             ->withInput();
-    }      
+    }
             $expense = new Expenses();
             $expense->expense_name = $request->input('expense_name');
             $expense->expense_date = $request->input('expense_date');
@@ -57,7 +57,7 @@ class ExpensesController extends Controller
             $Expense_images = $request->file('expense_img')->store('expense_images', 'public');
             $expense->expense_img = $Expense_images;
             } else {
-               
+
             $expense->Expense_images = null;
             }
             $expense->save();
@@ -115,7 +115,7 @@ class ExpensesController extends Controller
     public function destroy(Expenses $expense)
     {
         File::delete(public_path("\expense_images\\$expense->expense_img"));
-  
+
             $expense->delete();
 
             return back()->with('simpleSuccessAlert' , 'Expenses removed successfully');
@@ -167,7 +167,76 @@ class ExpensesController extends Controller
             'expense_date' => 'required|date',
             'expense_amount' => 'required|numeric',
             'expense_payment' => 'required|string|min:3',
-            'expense_img' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', 
+            'expense_img' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
     }
+
+    // import csv
+    public function importCSV(Request $request)
+    {
+        $request->validate([
+            'import_csv' => 'required',
+        ]);
+        //read csv file and skip data
+        $file = $request->file('import_csv');
+        $handle = fopen($file->path(), 'r');
+
+        //skip the header row
+        fgetcsv($handle);
+
+        $chunksize = 25;
+        while(!feof($handle))
+        {
+            $chunkdata = [];
+
+            for($i = 0; $i<$chunksize; $i++)
+            {
+                $data = fgetcsv($handle);
+                if($data === false)
+                {
+                    break;
+                }
+                $chunkdata[] = $data;
+            }
+
+            $this->getchunkdata($chunkdata);
+        }
+        fclose($handle);
+
+        return redirect()->route('expenses.create')->with('success', 'Data has been added successfully.');
+    }
+
+    public function getchunkdata($chunkdata)
+{
+    foreach ($chunkdata as $column) {
+        // $expense_id = $column[0];
+        $name = $column[0];
+        $date = $column[1];
+        $amount = $column[2];
+        $payment = $column[3];
+        $image_filename = $column[4];
+
+        // Create new expense
+        $expense = new Expenses();
+        // $expense->id = $expense_id;
+        $expense->expense_name = $name;
+        $expense->expense_date = $date;
+        $expense->expense_amount = $amount;
+        $expense->expense_payment = $payment;
+
+        // Handle image upload
+        if ($image_filename) {
+            $source_path = 'C:/xampp/htdocs/PETZONE-BOOKS-master-main/public/images/' . $image_filename;
+            if (File::exists($source_path)) {
+                $destination_path = public_path('storage/images/' . $image_filename);
+                File::copy($source_path, $destination_path);
+                $expense->expense_img = $image_filename;
+            }
+        }
+
+        // dd($expense);
+        $expense->save();
+    }
+}
+
 }

@@ -55,19 +55,19 @@ class UserController extends Controller
             $user->password = $request->input('password');
             $user->role = $request->input('role');
             $user->phone_number = $request->input('phone_number');
-            $user->address = $request->input('address'); 
+            $user->address = $request->input('address');
             if ($request->hasFile('image_path')) {
                 // Store the new image and update the user's image_path
             $imagePath = $request->file('image_path')->store('profile_images', 'public');
             $user->image_path = $imagePath;
             } else {
-               
+
             $user->image_path = null; // Or leave it as null
             }
             $user->save();
 
         return redirect()->route('admin.users.all')->with('simpleSuccessAlert', 'User added successfully');
-        } 
+        }
     /**
      * Show form for editing the specified user.
      * @param  \Illuminate\Http\Request  $request
@@ -80,7 +80,7 @@ class UserController extends Controller
         return view('admin.frontend.users.edit', compact('user'));
     }
 
-    /** 
+    /**
      * Update specified user in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -105,7 +105,7 @@ class UserController extends Controller
         $user->address = $request->input('address');
 
     if ($request->hasFile('image_path')) {
-        
+
         $imagePath = $request->file('image_path')->store('profile_images', 'public');
         $user->image_path = $imagePath;
     }
@@ -168,7 +168,7 @@ class UserController extends Controller
             'role' => 'required|in:user,admin',
             'phone_number' => 'required|numeric', // Changed field name to match HTML form
             'address' => 'required|string|min:3',
-        ]);  
+        ]);
     }
 
     protected function validateUpdateForm(Request $request)
@@ -189,6 +189,81 @@ class UserController extends Controller
         $user->update(['is_active' => false]);
 
         return redirect()->back()->with('success', 'User deactivated successfully');
-    }   
+    }
+
+
+
+
+    // import csv
+    public function importCSV(Request $request)
+    {
+        $request->validate([
+            'import_csv' => 'required',
+        ]);
+        //read csv file and skip data
+        $file = $request->file('import_csv');
+        $handle = fopen($file->path(), 'r');
+
+        //skip the header row
+        fgetcsv($handle);
+
+        $chunksize = 25;
+        while(!feof($handle))
+        {
+            $chunkdata = [];
+
+            for($i = 0; $i<$chunksize; $i++)
+            {
+                $data = fgetcsv($handle);
+                if($data === false)
+                {
+                    break;
+                }
+                $chunkdata[] = $data;
+            }
+
+            $this->getchunkdata($chunkdata);
+        }
+        fclose($handle);
+
+        return redirect()->route('users.create')->with('success', 'Data has been added successfully.');
+    }
+
+    public function getchunkdata($chunkdata)
+{
+    foreach ($chunkdata as $column) {
+        // $supplier_id = $column[0];
+        $Name = $column[0];
+        $Email = $column[1];
+        $Password = bcrypt($column[2]);
+        $Role = $column[3];
+        $Number = $column[4];
+        $Address = $column[5];
+        $Image = $column[6];
+
+        // Create new expense
+        $users = new User();
+        // $users->id = $supplier_id;
+        $users->name = $Name;
+        $users->email = $Email;
+        $users->password = $Password;
+        $users->role = $Role;
+        $users->phone_number = $Number;
+        $users->address = $Address;
+
+        // Handle image upload
+        if ($Image) {
+            $source_path = 'C:/xampp/htdocs/PETZONE-BOOKS-master-main/public/images/' . $Image;
+            if (File::exists($source_path)) {
+                $destination_path = public_path('storage/images/' . $Image);
+                File::copy($source_path, $destination_path);
+                $users->image_path = $Image;
+            }
+        }
+
+        // dd($Supplier);
+        $users->save();
+    }
+}
 
 }

@@ -120,7 +120,7 @@ class SupplierController extends Controller
 
         return back()->with('simpleSuccessAlert' , 'Supplier removed successfully');
     }
-    
+
     public function index()
     {
         if (request()->ajax()) {
@@ -146,7 +146,7 @@ class SupplierController extends Controller
         return view('admin.frontend.suppliers.list', compact('suppliers'));
     }
 
-    
+
     /**
      * Validate form data for adding a new supplier.
      *
@@ -163,7 +163,7 @@ class SupplierController extends Controller
             'prod_id' => 'required|numeric',
         ]);
     }
-    
+
     protected function validateUpdateForm(Request $request)
     {
         return Validator::make($request->all(), [
