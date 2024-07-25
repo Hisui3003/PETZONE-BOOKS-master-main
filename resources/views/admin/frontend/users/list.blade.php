@@ -16,37 +16,47 @@
                     <th>Number</th>
                     <th>Address</th>
                     <th>Image</th>
-                    <th>Action</th>
+                    <th style="text-align: center;">Action</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach($users as $user)
-                    <tr>
-                        <td>{{ $user->id }}</td>
-                        <td>{{ $user->name }}</td>
-                        <td>{{ $user->email }}</td>
-                        <td>{{ $user->role }}</td>
-                        <td>{{ $user->phone_number }}</td>
-                        <td>{{ $user->address }}</td>
-                        <td>
-                            @if($user->image_path)
-                                <img src="{{ asset('storage/' . $user->image_path) }}" alt="Profile Image" width="50">
-                            @else
-                                No Image
-                            @endif
-                        </td>
-                        <td>
-                            <a href="{{ route('admin.users.edit', $user->id) }}" class="btn btn-primary">Edit</a>
-                            <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST" style="display:inline;">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-danger">Delete</button>
-                            </form>
-                        </td>
-                    </tr>
+                <tr>
+                    <td>{{ $user->id }}</td>
+                    <td>{{ $user->name }}</td>
+                    <td>{{ $user->email }}</td>
+                    <td>{{ $user->role }}</td>
+                    <td>{{ $user->phone_number }}</td>
+                    <td>{{ $user->address }}</td>
+                    <td>
+                        @if($user->image_path)
+                        <img src="{{ asset('storage/' . $user->image_path) }}" alt="Profile Image" width="50">
+                        @else
+                        No Image
+                        @endif
+                    </td>
+                    <td style="text-align: center;">
+                        <a href="{{ route('admin.users.edit', $user->id) }}" class="btn btn-primary">Edit</a>
+                        <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST"
+                            style="display:inline;">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                    </td>
+                </tr>
                 @endforeach
+                @for ($i = 0; $i < (10 - count($users)); $i++) <tr>
+                    <td colspan="8">&nbsp;</td>
+                    </tr>
+                    @endfor
             </tbody>
         </table>
+
+        <!-- Centered Pagination links -->
+        <div class="pagination-wrapper" style="display: flex; justify-content: right;">
+            {{ $users->links() }}
+        </div>
     </div>
 </div>
 <!-- Users list end -->

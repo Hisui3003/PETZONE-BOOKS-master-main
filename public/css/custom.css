@@ -12,3 +12,75 @@
 .dataTables_wrapper .dataTables_scrollBody table td {
     border: 2px solid #000; /* Adjust the thickness and color as needed */
 }
+/* Custom CSS for a minimalist floating table */
+
+.space {
+    margin-bottom: 500px;
+}
+
+tbody tr:nth-child(odd) {
+    background-color: #fff;
+  }
+
+tbody tr:nth-child(even) {
+    background-color: #eee;
+}
+
+.table-minimalist {
+    margin-top: 50px;
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px auto;
+    box-shadow: 0 4px 8px rgba(255, 0, 0, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.table-minimalist thead {
+    /* background-color: #f9f9f9; */
+    /* border-bottom: 1px solid #ddd; */
+}
+
+.table-minimalist th, .table-minimalist td {
+    padding: 10px;
+}
+
+.table-minimalist th {
+    text-align: center; /* Center the headers */
+}
+
+.table-minimalist td {
+    text-align: center;
+}
+
+.table-minimalist img {
+    border-radius: 5px;
+}
+
+.btn-primary, .btn-danger {
+    border-radius: 4px;
+    padding: 5px 10px;
+    font-size: 12px;
+}
+
+.pagination-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.pagination-wrapper .pagination {
+    margin: 0;
+}
+
+.pagination-wrapper .page-link {
+    color: #555;
+    border: none;
+    background: transparent;
+}
+
+.pagination-wrapper .page-item.active .page-link {
+    color: #717171;
+    background: none;
+    border: none;
+}

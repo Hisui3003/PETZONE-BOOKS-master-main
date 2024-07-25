@@ -16,8 +16,13 @@ class ExpensesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function all()
+    public function all(Request $request)
     {
+        if ($request->ajax()) {
+            $expenses = Expenses::paginate(10); // 10 items per page for AJAX requests
+            return response()->json($expenses);
+        }
+
         $expenses = Expenses::paginate(10);
 
         return view('admin.frontend.expenses.list', compact('expenses'));

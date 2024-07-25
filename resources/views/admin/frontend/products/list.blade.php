@@ -18,18 +18,18 @@
                     <th>Price</th>
                     <th>Discount</th>
                     <th>Stock</th>
-                    <th>Action</th>
+                    <th style="text-align: center;">Action</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach($products as $product)
                     <tr>
                         <td>{{ $product->id }}</td>
-                        <td>{{ $product->title }}</td>
-                        <td>{{ $product->category->title }}</td>
-                        <td>{{ $product->author }}</td>
+                        <td style="width: 100px;">{{ $product->title }}</td>
+                        <td style="width: 150px;">{{ $product->category->title }}</td>
+                        <td style="width: 150px;">{{ $product->author }}</td>
                         {{-- <td>{{ substr($product->description, 0, 15) . '...' }}</td> --}}
-                        <td>{{ Str::limit($product->description, 15) }}</td>
+                        <td style="width: 200px;">{{ Str::limit($product->description, 100) }}</td>
 
                         <td>
                             @if($product->demo_url)
@@ -41,7 +41,7 @@
                         <td>${{ $product->price }}</td>
                         <td>{{ $product->percent_discount }}</td>
                         <td>{{ $product->stock }}</td>
-                        <td>
+                        <td style="text-align: center;">
                             <a href="{{ route('admin.products.edit', $product->id) }}" class="btn btn-primary">Edit</a>
                             <form action="{{ route('admin.products.destroy', $product->id) }}" method="POST" style="display:inline;">
                                 @csrf
@@ -50,15 +50,18 @@
                             </form>
                         </td>
                     </tr>
-                @endforeach
+                    @endforeach
+                    @for ($i = 0; $i < (10 - count($products)); $i++) <tr>
+                        <td colspan="10">&nbsp;</td>
+                        </tr>
+                        @endfor
             </tbody>
         </table>
 
-        <nav aria-label="Page navigation example">
-            <ul class="pagination justify-content-center">
-              {{ $products->links() }}
-            </ul>
-          </nav>
+        <!-- Centered Pagination links -->
+        <div class="pagination-wrapper" style="display: flex; justify-content: right;">
+            {{ $products->links() }}
+        </div>
 
     </div>
 </div>

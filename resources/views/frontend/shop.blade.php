@@ -38,8 +38,8 @@
 										<a href="{{ route('shop.basket.add' , $product->id)}}" class="increase">+</a>
 										<span class="quantity">{{ $basketAtViews->getQuantity($product->id) }}</span>
 										<a href="{{ route('shop.basket.remove' , $product->id) }}" class="decrease">-</a>
-									</div>	
-								@endif 
+									</div>
+								@endif
 							</figcaption>
 						</figure>
 					@endforeach
